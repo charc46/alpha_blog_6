@@ -23,6 +23,8 @@ class ArticlesController < ApplicationController
   def create
     # This enabled our new article to be posted to the articles table, we must whitelist the required fields using the permit method
     @article = Article.new(article_params)
+    # Temporary user to enable authentication for creating articles
+    @article.user = User.first
     # We then save the article to the table
     if @article.save
       # If our article saves we display a success message
