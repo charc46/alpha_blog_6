@@ -4,12 +4,10 @@ class ArticlesController < ApplicationController
   
   # Actions, each need a view file in the views/articles folder.
   def show 
-  # Takes the article from the Article class and assigns it to the @article instance variable to be called in our show view
   end
 
   def index
-    # Takes all articles from the Article class and saves them to the @articles instance variable
-    @articles = Article.all
+    @articles = Article.paginate(page: params[:page], per_page: 5)
   end
 
   def new
