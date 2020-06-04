@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
   # The 'before_action' allows us to add our set_article method to our selected methods at the beginning of the controller, helping to prevent repeated code
   before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, except: [:show, :index]
+  before_action :require_same_user, only: [:edit, :update, :destroy]
   
   # Actions, each need a view file in the views/articles folder.
   def show 
@@ -55,5 +57,12 @@ class ArticlesController < ApplicationController
 
   def article_params
     params.require(:article).permit(:title, :description)
+  end
+
+  def require_same_user
+    if current_user != @article.user
+    flash[:notice] = "You do not have permission to edit this article"
+      redirect_to @article
+    end
   end
 end
